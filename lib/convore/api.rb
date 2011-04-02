@@ -17,6 +17,14 @@ module Convore
 				}
 				cache[api_uri] = response
 			end
+			def post(api_uri, params, username=nil, password=nil)
+				Net::HTTP.start('convore.com', 443, nil, nil, nil, nil, {:use_ssl => true}) {|http|
+					req = Net::HTTP::Post.new(api_uri)
+					req.basic_auth(username, password) if username && password
+					req.set_form_data params
+					http.request(req)
+				}
+			end
 		end
 	end
 end

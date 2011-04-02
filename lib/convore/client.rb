@@ -68,5 +68,10 @@ module Convore
 				Topic.from_json(topic)
 			end
 		end
+
+		def create_message(topic_id, message)
+			body = "message=#{message}"
+			response = Convore::API.post("/api/topics/#{topic_id}/messages/create.json", {"message"=>message}, @username, @password)
+		end
 	end
 end
