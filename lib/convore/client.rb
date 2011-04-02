@@ -50,5 +50,23 @@ module Convore
 				process_response(t[:response])
 			end				
 		end
+
+		def groups
+			response = Convore::API.get("/api/groups.json", @username, @password)
+
+			json = JSON.parse(response.body)
+			json["groups"].map do |group|
+				Group.from_json(group)
+			end
+		end
+
+		def topics(group)
+			response = Convore::API.get("/api/groups/#{group}/topics.json", @username, @password)
+
+			json = JSON.parse(response.body)
+			json["topics"].map do |topic|
+				Topic.from_json(topic)
+			end
+		end
 	end
 end
